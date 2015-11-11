@@ -22,8 +22,6 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
-    OkHttpClient client = new OkHttpClient();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,8 +32,10 @@ public class MainActivity extends AppCompatActivity {
         String baseUrl = "https://api.xively.com/v2/feeds/";
         String feedId = "1254613424";
         String outputType = "json"; // Can be "xml", "json", or "csv"
-        String apiKey = getString(R.string.api_key);
+
         String forecastUrl = baseUrl + feedId + "." + outputType;
+
+        String apiKey = getString(R.string.api_key);
 
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
@@ -47,13 +47,12 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
-
+                // TODO: Show failure message
             }
 
             @Override
             public void onResponse(Response response) throws IOException {
                 try {
-                    // Pick up here
                     if (response.isSuccessful()) {
                         Log.v(TAG, response.body().string());
                     }
