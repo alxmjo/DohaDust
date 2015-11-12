@@ -19,5 +19,27 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/concentrationLabel"/>
+        android:id="@+id/concentrationLabel"
+        android:textSize="100sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="particles per 0.01 cubic feet"
+        android:id="@+id/unitsLabel"
+        android:layout_below="@+id/concentrationLabel"
+        android:layout_centerHorizontal="true"
+        android:singleLine="false"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Last updated at 6:45 a.m. AST on August 17, 2015"
+        android:id="@+id/lastRefreshLabel"
+        android:layout_marginBottom="72dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textSize="12sp"/>
 </RelativeLayout>

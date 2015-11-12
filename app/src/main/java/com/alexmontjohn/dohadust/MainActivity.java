@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Get values from JSON object and assign to CurrentData
         currentData.setConcentration(data.getString("current_value"));
+        Log.v(TAG, "Concentration: " + currentData.getConcentration());
 
         return currentData;
     }
