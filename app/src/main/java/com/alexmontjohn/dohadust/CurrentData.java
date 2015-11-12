@@ -1,15 +1,15 @@
 package com.alexmontjohn.dohadust;
 
 public class CurrentData {
-    private int mParticles;
+    private int mConcentration;
     private int mTime;
 
-    public int getParticles() {
-        return mParticles;
+    public int getConcentration() {
+        return mConcentration;
     }
 
-    public void setParticles(int particles) {
-        mParticles = particles;
+    public void setConcentration(int concentration) {
+        mConcentration = concentration;
     }
 
     public int getTime() {
