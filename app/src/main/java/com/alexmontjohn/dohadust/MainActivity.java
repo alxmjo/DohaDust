@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
+    // Create object to hold data from Xively
     private CurrentData mCurrentData;
 
     @Bind(R.id.concentrationLabel) TextView mConcentrationLabel;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ButterKnife.bind(this);
+        ButterKnife.bind(this); // Cnnect ButterKnife to this activity
 
         String baseUrl = "https://api.xively.com/v2/feeds/";
         String feedId = "1254613424";
@@ -47,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
         String outputType = "json"; // Can be "xml", "json", or "csv"
 
         String forecastUrl = baseUrl + feedId + "/datastreams/" + datastreamId + "." + outputType;
-
         String apiKey = getString(R.string.api_key);
 
         OkHttpClient client = new OkHttpClient();
@@ -77,10 +77,8 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
                     }
-                } catch (IOException e) {
+                } catch (IOException | JSONException e) {
                     Log.e(TAG, "Exception caught: ", e);
-                } catch (JSONException e) {
-                    Log.e(TAG, "Exception caught: ", e); // Log exception
                 }
             }
         });
@@ -97,17 +95,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private CurrentData getCurrentData(String jsonData) throws JSONException {
-        JSONObject data = new JSONObject(jsonData);
-        String concentration = data.getString("current_value");
-        Log.i(TAG, "From JSON: " + concentration);
+        JSONObject data = new JSONObject(jsonData); // Convert passed string into JSON object
+        CurrentData currentData = new CurrentData(); // Create new CurrentData object to hold data
 
-        CurrentData currentData = new CurrentData();
-
-        String s = data.getString("current_value");
-        double d = Double.parseDouble(s);
-        int i = (int) d;
-
-        currentData.setConcentration(i);
+        // Get values from JSON object and assign to CurrentData
+        currentData.setConcentration(data.getString("current_value"));
 
         return currentData;
     }

@@ -8,8 +8,11 @@ public class CurrentData {
         return mConcentration;
     }
 
-    public void setConcentration(int concentration) {
-        mConcentration = concentration;
+    public void setConcentration(String concentration) {
+        double d = Double.parseDouble(concentration);
+        int i = (int) d;
+
+        mConcentration = i;
     }
 
     public int getTime() {
