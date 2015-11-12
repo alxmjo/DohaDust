@@ -27,19 +27,21 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="particles per 0.01 cubic feet"
+        android:text="PARTICLES PER 0.01 CUBIC FEET"
         android:id="@+id/unitsLabel"
+        android:singleLine="false"
         android:layout_below="@+id/concentrationLabel"
         android:layout_centerHorizontal="true"
-        android:singleLine="false"
-        />
+        android:textSize="18sp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/summaryLabel"
-        android:layout_alignTop="@+id/concentrationLabel"
+        android:text="LAST UPDATED AT 07:28 AST"
+        android:layout_below="@+id/unitsLabel"
         android:layout_centerHorizontal="true"
-        android:text="At 7:28 a.m. AST"
-        />
+        android:textSize="12sp"
+        android:layout_marginTop="10dp"
+        android:textColor="#40000000"/>
 </RelativeLayout>

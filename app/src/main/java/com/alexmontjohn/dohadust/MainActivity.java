@@ -21,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
                     }
-                } catch (IOException | JSONException e) {
+                } catch (IOException | JSONException | ParseException e) {
                     Log.e(TAG, "Exception caught: ", e);
                 }
             }
@@ -88,19 +89,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Refreshing sensor data…", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                        .setAction("Action", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Log.v(TAG, "You're pressing my buttons...");
+                            }
+                        }).show();
 
             }
         });
     }
 
-    private CurrentData getCurrentData(String jsonData) throws JSONException {
+    private CurrentData getCurrentData(String jsonData) throws JSONException, ParseException {
         JSONObject data = new JSONObject(jsonData); // Convert passed string into JSON object
         CurrentData currentData = new CurrentData(); // Create new CurrentData object to hold data
 
         // Get values from JSON object and assign to CurrentData
         currentData.setConcentration(data.getString("current_value"));
+        currentData.setTime(data.getString("at"));
         Log.v(TAG, "Concentration: " + currentData.getConcentration());
+        Log.v(TAG, "Date: " + currentData.getTime());
 
         return currentData;
     }
