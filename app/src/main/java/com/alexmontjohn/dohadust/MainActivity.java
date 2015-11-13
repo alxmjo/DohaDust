@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private CurrentData mCurrentData;
 
     @Bind(R.id.concentrationLabel) TextView mConcentrationLabel;
+    @Bind(R.id.summaryLabel) TextView mSummaryLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,14 +108,13 @@ public class MainActivity extends AppCompatActivity {
         // Get values from JSON object and assign to CurrentData
         currentData.setConcentration(data.getString("current_value"));
         currentData.setTime(data.getString("at"));
-        Log.v(TAG, "Concentration: " + currentData.getConcentration());
-        Log.v(TAG, "Date: " + currentData.getTime());
 
         return currentData;
     }
 
     private void updateDisplay() {
         mConcentrationLabel.setText(mCurrentData.getConcentration() + "");
+        mSummaryLabel.setText(mCurrentData.getTime() + "");
     }
 
     /*

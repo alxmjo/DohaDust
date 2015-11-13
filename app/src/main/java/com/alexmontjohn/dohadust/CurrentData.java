@@ -22,10 +22,7 @@ public class CurrentData {
     }
 
     public Date getTime() {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(mTime);
-        cal.add(Calendar.HOUR, +3);
-        mTime = cal.getTime();
+
         return mTime;
     }
 
@@ -33,6 +30,11 @@ public class CurrentData {
         String input = time;
         Date date = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSSSS'Z'", Locale.ENGLISH).parse(input);
 
-        mTime = date;
+        // Xively reports time incorrectly, so small hack here to correct time difference
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.HOUR, 3);
+
+        mTime = cal.getTime();
     }
 }
