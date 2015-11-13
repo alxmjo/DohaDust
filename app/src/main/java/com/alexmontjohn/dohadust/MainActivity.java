@@ -44,6 +44,26 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ButterKnife.bind(this); // Cnnect ButterKnife to this activity
 
+        updateData();
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Refreshing sensor data…", Snackbar.LENGTH_LONG).show();
+                updateData();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateDisplay();
+                    }
+                });
+
+            }
+        });
+    }
+
+    private void updateData() {
         String baseUrl = "https://api.xively.com/v2/feeds/";
         String feedId = "1254613424";
         String datastreamId = "concentration";
@@ -84,21 +104,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Refreshing sensor data…", Snackbar.LENGTH_LONG)
-                        .setAction("Action", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Log.v(TAG, "You're pressing my buttons...");
-                            }
-                        }).show();
-
-            }
-        });
     }
 
     private CurrentData getCurrentData(String jsonData) throws JSONException, ParseException {
@@ -114,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateDisplay() {
         mConcentrationLabel.setText(mCurrentData.getConcentration() + "");
-        mSummaryLabel.setText(mCurrentData.getTime() + "");
+        mSummaryLabel.setText("Last refreshed on " + mCurrentData.getTimeAsString());
     }
 
     /*

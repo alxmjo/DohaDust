@@ -22,8 +22,13 @@ public class CurrentData {
     }
 
     public Date getTime() {
-
         return mTime;
+    }
+
+    public String getTimeAsString() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy 'at' h:mm a");
+
+        return dateFormat.format(mTime);
     }
 
     public void setTime(String time) throws ParseException {
