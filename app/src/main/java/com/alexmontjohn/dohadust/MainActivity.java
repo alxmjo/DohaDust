@@ -17,11 +17,14 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -42,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ButterKnife.bind(this); // Cnnect ButterKnife to this activity
+        ButterKnife.bind(this); // Connect ButterKnife to this activity
 
         updateData();
 
@@ -68,8 +71,9 @@ public class MainActivity extends AppCompatActivity {
         String feedId = "1254613424";
         String datastreamId = "concentration";
         String outputType = "json"; // Can be "xml", "json", or "csv"
+        String calculateAverage = "interval=900&function=average&limit=1&duration=15minutes";
 
-        String forecastUrl = baseUrl + feedId + "/datastreams/" + datastreamId + "." + outputType;
+        String forecastUrl = baseUrl + feedId + "/datastreams/" + datastreamId + "." + outputType + "?" + calculateAverage;
         String apiKey = getString(R.string.api_key);
 
         OkHttpClient client = new OkHttpClient();
@@ -111,8 +115,10 @@ public class MainActivity extends AppCompatActivity {
         CurrentData currentData = new CurrentData(); // Create new CurrentData object to hold data
 
         // Get values from JSON object and assign to CurrentData
-        currentData.setConcentration(data.getString("current_value"));
-        currentData.setTime(data.getString("at"));
+        JSONObject datapoints = data.getJSONArray("datapoints").getJSONObject(0);
+
+        currentData.setConcentration(data.getJSONArray("datapoints").getJSONObject(0).getString("value"));
+        currentData.setTime(data.getJSONArray("datapoints").getJSONObject(0).getString("at"));
 
         return currentData;
     }
