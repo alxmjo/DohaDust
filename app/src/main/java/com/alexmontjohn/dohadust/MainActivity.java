@@ -26,6 +26,13 @@ import java.text.ParseException;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+// TODO: Improve error handling for when app can't connect to internet
+// TODO: Change background color based on particle sensor value
+// TODO: Add graph which shows how values have changed over past day or so
+// TODO: Add local language translations (Arabic, Bengali, Hindi, etc.)
+// TODO: Add information page to explain how data is collected and shared
+// TODO: Calculate running average locally so data can be updated every thirty seconds
+
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
