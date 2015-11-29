@@ -1,5 +1,8 @@
 package com.alexmontjohn.dohadust;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -130,6 +133,18 @@ public class MainActivity extends AppCompatActivity {
     private void updateDisplay() {
         mConcentrationLabel.setText(mCurrentData.getConcentration() + "");
         mSummaryLabel.setText("Last refreshed on " + mCurrentData.getTimeAsString());
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager manager = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        boolean isAvailable = false;
+        if (networkInfo != null && networkInfo.isConnected()) {
+            isAvailable = true;
+        }
+
+        return isAvailable;
     }
 
     /*
