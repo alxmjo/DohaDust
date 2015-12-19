@@ -34,7 +34,7 @@ import butterknife.ButterKnife;
 // TODO: Add graph which shows how values have changed over past day or so
 // TODO: Add local language translations (Arabic, Bengali, Hindi, etc.)
 // TODO: Add information page to explain how data is collected and shared
-// TODO: Calculate running average locally so data can be updated every thirty seconds
+// TODO: Calculate running average locally so data can be updated more frequently
 
 public class MainActivity extends AppCompatActivity {
 
