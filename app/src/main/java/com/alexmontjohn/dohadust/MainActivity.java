@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateDisplay() {
         mConcentrationLabel.setText(mCurrentData.getConcentration() + "");
-        mSummaryLabel.setText("Last refreshed on " + mCurrentData.getTimeAsString());
+        mSummaryLabel.setText("Last refreshed on " + mCurrentData.getTimeAsString() + " AST");
     }
 
     private boolean isNetworkAvailable() {
