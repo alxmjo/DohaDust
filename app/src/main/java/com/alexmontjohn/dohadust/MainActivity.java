@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
@@ -29,7 +30,7 @@ import java.text.ParseException;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-// TODO: Improve error handling for when app can't connect to internet
+// TODO: Show network error as SnackBar instead of Toast
 // TODO: Change background color based on particle sensor value
 // TODO: Add graph which shows how values have changed over past day or so
 // TODO: Add local language translations (Arabic, Bengali, Hindi, etc.)
@@ -74,47 +75,52 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateData() {
-        String baseUrl = "https://api.xively.com/v2/feeds/";
-        String feedId = "1254613424";
-        String datastreamId = "concentration";
-        String outputType = "json"; // Can be "xml", "json", or "csv"
-        String calculateAverage = "interval=900&function=average&limit=1&duration=15minutes";
+        if (isNetworkAvailable()) {
 
-        String forecastUrl = baseUrl + feedId + "/datastreams/" + datastreamId + "." + outputType + "?" + calculateAverage;
-        String apiKey = getString(R.string.api_key);
+            String baseUrl = "https://api.xively.com/v2/feeds/";
+            String feedId = "1254613424";
+            String datastreamId = "concentration";
+            String outputType = "json"; // Can be "xml", "json", or "csv"
+            String calculateAverage = "interval=900&function=average&limit=1&duration=15minutes";
 
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder()
-                .url(forecastUrl)
-                .header("X-ApiKey", apiKey)
-                .build();
+            String forecastUrl = baseUrl + feedId + "/datastreams/" + datastreamId + "." + outputType + "?" + calculateAverage;
+            String apiKey = getString(R.string.api_key);
 
-        Call call = client.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
-                // TODO: Show failure message
-                Log.v(TAG, "Something went wrong with enqueue.");
-            }
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+                    .url(forecastUrl)
+                    .header("X-ApiKey", apiKey)
+                    .build();
 
-            @Override
-            public void onResponse(Response response) throws IOException {
-                try {
-                    String jsonData = response.body().string();
-                    if (response.isSuccessful()) {
-                        mCurrentData = getCurrentData(jsonData);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                updateDisplay();
-                            }
-                        });
-                    }
-                } catch (IOException | JSONException | ParseException e) {
-                    Log.e(TAG, "Exception caught: ", e);
+            Call call = client.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Request request, IOException e) {
+                    // TODO: Show failure message
+                    Log.v(TAG, "Something went wrong with enqueue.");
                 }
-            }
-        });
+
+                @Override
+                public void onResponse(Response response) throws IOException {
+                    try {
+                        String jsonData = response.body().string();
+                        if (response.isSuccessful()) {
+                            mCurrentData = getCurrentData(jsonData);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    updateDisplay();
+                                }
+                            });
+                        }
+                    } catch (IOException | JSONException | ParseException e) {
+                        Log.e(TAG, "Exception caught: ", e);
+                    }
+                }
+            });
+        } else {
+            Toast.makeText(this, "Network is unavailable.", Toast.LENGTH_LONG).show();
+        }
     }
 
     private CurrentData getCurrentData(String jsonData) throws JSONException, ParseException {
